@@ -1,0 +1,33 @@
+name: 'action-check-snap'
+description: 'A GitHub action for checking if a published snap package contains outdated dependencies'
+author: 'Tim Süberkrüb'
+
+inputs:
+  snap:
+    required: true
+    description: The name of the snap package to analyze
+  channel:
+    required: false
+    description: The channel of the snap packge to analyze
+    default: 'stable'
+
+outputs:
+  outdated:
+    description: A boolean indicating whether the snap contains outdated packages
+  outdated-packages:
+    description: A JSON array of strings with the names of the outdated packages
+  usns-by-package:
+    description: |
+      A JSON object mapping package names to a JSON array of USNs
+
+      Example output:
+      ```json
+      {
+        'libglib2.0-0': ['4049-1', '4759-1', '4764-1'],
+        'snapcraft': ['4661-1']
+      }
+      ```
+
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
